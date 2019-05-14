@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TD - Todo List</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    /* Inline your critical styles */
+    html, body {
+      /* Define app variables */
+      --app-bg-color: #fafafa;
+      --app-text-color: #313131;
+      --app-card-color: #ffffff;
+      --app-grey-color: #E2E2E2;
+      --app-header-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: var(--app-bg-color);
+      font-size: 16px;
+      font-family: sans-serif;
+      color: var(--app-text-color);
+    }
+    #app > header > nav {
+      padding: 0 1rem;
+      background-color: #313131;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: 1px 1px 10px rgba(0,0,0,0.4);
+    }
+      #app > header > nav > span.title > a {
+        padding: 1rem 1rem;
+        display: block;
+        color: #fafafa;
+        text-decoration: none;
+        border-bottom: 5px solid transparent;
+        transition: border-color .3s;
+      }
+        #app > header > nav > span.title > a:hover {
+          border-bottom: 5px solid #fafafa;
+        }
+
+    .btn {
+      display: inline-block;
+      padding: 5px;
+      color: black;
+      text-decoration: none;
+      background-color: #DFDFDF;
+      border-radius: 2.5px;
+      transition: background-color .2s;
+    }
+    .btn-blue {
+      background-color: blue;
+      color: white;
+    }
+    .btn-blue:hover, .btn-blue:active {
+      background-color: darkblue;
+    }
+
+    section.title {
+      margin: 1rem;
+    }
+    section.form {
+      margin: 1rem;
+      display: flex;
+    }
+    input[type="text"] {
+      padding: 7.5px;
+    }
+  </style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        // navigator.serviceWorker.register('/service-worker.js', {
+        //   scope: '/',
+        // });
+      });
+    }
+  </script>
+</head>
+<body>
+  <section id="app">
+    <header>
+      <nav>
+        <span class="title"><a href="/">Home</a></span>
+      </nav>
+    </header>
+    <main>
+      <div class="skeleton" active>
+        <div class="hero"></div>
+        <div class="title"></div>
+        <div class="text"></div>
+      </div>
+      <section class="title">
+        <h1>To do list</h1>
+      </section>
+      <section class="form">
+        <div>
+          <input id="input-form" type="text" placeholder="Card title">
+          <a id="btn-submit-card" class="btn btn-blue" href="#">Submit</a>
+        </div>
+      </section>
+      <section page="list"><div class="ctn"></div></section>
+      <section page="view"></section>
+    </main>
+  </section>
+  <script type="module" src="/js/app.js" async></script>
+  <script nomodule>
+    const script = document.createElement('script');
+    script.src = '/js/components/card.js';
+    document.head.appendChild(script);
+  </script>
+</body>
+</html>
