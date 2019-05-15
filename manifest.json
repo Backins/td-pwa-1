@@ -1,7 +1,7 @@
 {
-  "name": "News feed",
-  "short_name": "News feed",
-  "description": "Get all the information you doesn't know you wanted !",
+  "name": "To do list",
+  "short_name": "Todolist",
+  "description": "Manage your to do list online and/or offline !",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
