@@ -1,5 +1,6 @@
 # Lancer le projet
 
+Domange Julien - 4IW2
 <pre>
 - yarn install
 - yarn generate
