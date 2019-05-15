@@ -27,6 +27,7 @@ import checkConnectivity from '/js/connection.js';
     const data = await fetch('/db.json');
     const json = await data.json();
     const task = await json.task;
+    let jsonArrayTask = task;
     let contentTaskToPost = '';
 
     const database = await openDB('app-store', 1, {
@@ -69,7 +70,7 @@ import checkConnectivity from '/js/connection.js';
         cardElement.initCard(inputSubmitCard.value, idTask, textAreaSubmitCard.value, "Admin");
         listPage.appendChild(cardElement);
         postTask(contentTaskToPost);
-        addTaskToIDB(database, task.concat(jsonTask));
+        addTaskToIDB(database, jsonArrayTask.concat(jsonTask));
     }
 
 
@@ -100,6 +101,7 @@ import checkConnectivity from '/js/connection.js';
   }
 
   const addTaskToIDB = async function (database, task) {
+      console.log(task);
       await database.put('articles', task, 'articles');
   };
 
