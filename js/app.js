@@ -8,6 +8,8 @@ import checkConnectivity from '/js/connection.js';
   const listPage = app.querySelector('[page=list]');
   const btnSubmitCard = app.querySelector('#btn-submit-card');
   const inputSubmitCard = app.querySelector('#input-form');
+  const textAreaSubmitCard = app.querySelector('#input-textarea');
+
   const jsonServerHost = "http://127.0.0.1:3000";
 
   checkConnectivity(3, 1000);
@@ -18,11 +20,9 @@ import checkConnectivity from '/js/connection.js';
   skeleton.removeAttribute('active');
   listPage.setAttribute('active', '');
 
-
-
-
   try {
     btnSubmitCard.addEventListener('click', onClickAddCard);
+
 
     const data = await fetch('/db.json');
     const json = await data.json();
@@ -46,7 +46,9 @@ import checkConnectivity from '/js/connection.js';
   
       cardElement.initCard(
           item.title,
-          item.id
+          item.id,
+          item.content,
+          item.author,
       );
 
       listPage.appendChild(cardElement);
@@ -55,16 +57,21 @@ import checkConnectivity from '/js/connection.js';
     });
 
     function onClickAddCard(){
-      contentTaskToPost = JSON.stringify({
-          "id": uuidv4(),
-          "title": inputSubmitCard.value,
-          "author": "Admin"
-      });
-      let cardElement = new AppCard();
-      cardElement.initCard(inputSubmitCard.value);
-      listPage.appendChild(cardElement);
-      postTask(contentTaskToPost);
+        let idTask = uuidv4();
+        let jsonTask = {
+            "id": idTask,
+            "title": inputSubmitCard.value,
+            "content": textAreaSubmitCard.value,
+            "author": "Admin"
+        };
+        contentTaskToPost = JSON.stringify(jsonTask);
+        let cardElement = new AppCard();
+        cardElement.initCard(inputSubmitCard.value, idTask, textAreaSubmitCard.value, "Admin");
+        listPage.appendChild(cardElement);
+        postTask(contentTaskToPost);
+        addTaskToIDB(database, task.concat(jsonTask));
     }
+
 
     document.addEventListener('add-favorit', async e => {
       const updatedArticle = articles.map(article => {
@@ -92,7 +99,9 @@ import checkConnectivity from '/js/connection.js';
     console.error(error, ':(');
   }
 
-
+  const addTaskToIDB = async function (database, task) {
+      await database.put('articles', task, 'articles');
+  };
 
   // Json server
   const getAllTasks = async function () {
@@ -109,11 +118,11 @@ import checkConnectivity from '/js/connection.js';
       }
   };
 
-  const postTask = async function (post) {
+  const postTask = async function (task) {
       try {
           const response = await fetch(jsonServerHost+'/task', {
               method: "POST",
-              body: post,
+              body: task,
               headers: {
                   'Content-Type': 'application/json'
               }
@@ -127,7 +136,7 @@ import checkConnectivity from '/js/connection.js';
       } catch (error) {
           console.error(error);
       }
-  }
+  };
 
   function uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

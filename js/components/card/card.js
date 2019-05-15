@@ -5,6 +5,8 @@ export default class AppCard extends LitElement {
     super();
     this.title = "";
     this.id = "";
+    this.content = "";
+    this.author = "";
   }
 
   static get styles() {
@@ -39,6 +41,7 @@ export default class AppCard extends LitElement {
         background-color: #DFDFDF;
         border-radius: 2.5px;
         transition: background-color .2s;
+        border: 1px solid transparent;
       }
       .btn-red {
         background-color: red;
@@ -89,15 +92,35 @@ export default class AppCard extends LitElement {
   static get properties() {
     return {
       title: { type: String },
-      description: { type: String },
-      src: { type: String },
-      placeholder: { type: String },
+      content: { type: String },
+      id: { type: String },
+      author: { type: String },
     };
   }
 
-  initCard(title, id) {
+  initCard(title, id, content, author) {
     this.title = title;
     this.id = id;
+    this.content = content;
+    this.author = author;
+  }
+
+  deleteCard()
+  {
+    let requestHeader = new Headers();
+
+    let initFetch = {
+        method: "DELETE",
+        headers: requestHeader,
+        mode: "cors"
+    };
+    fetch(`http://127.0.0.1:3000/task/${this.id}`,initFetch)
+        .then(function(response) {
+            return response.blob();
+        });
+
+    this.remove();
+    return false;
   }
 
   render() {
@@ -105,7 +128,9 @@ export default class AppCard extends LitElement {
       <article class="card">
         <main>
           <h1>${this.title}</h1>
-          <a href="#" class="btn btn-red" data-target="${this.id}">Delete</a>
+          <p>${this.content}</p>
+          <p>Author : ${this.author}</p>
+          <button class="btn btn-red" @click=${this.deleteCard} data-target="${this.id}">Delete</button>
         </main>
       </article>
     `;

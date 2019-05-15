@@ -26,6 +26,10 @@
       font-family: sans-serif;
       color: var(--app-text-color);
     }
+    #app > main {
+      max-width: 600px;
+      margin: auto;
+    }
     #app > header > nav {
       padding: 0 1rem;
       background-color: #313131;
@@ -53,6 +57,7 @@
       background-color: #DFDFDF;
       border-radius: 2.5px;
       transition: background-color .2s;
+      border: 1px solid transparent;
     }
     .btn-blue {
       background-color: blue;
@@ -67,8 +72,15 @@
     }
     section.form {
       margin: 1rem;
-      display: flex;
     }
+      section.form input{
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      section.form textarea{
+        width: 100%;
+        margin-bottom: 1rem;
+      }
     input[type="text"] {
       padding: 7.5px;
     }
@@ -76,9 +88,9 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        // navigator.serviceWorker.register('/service-worker.js', {
-        //   scope: '/',
-        // });
+         navigator.serviceWorker.register('/service-worker.js', {
+           scope: '/',
+         });
       });
     }
   </script>
@@ -100,10 +112,9 @@
         <h1>To do list</h1>
       </section>
       <section class="form">
-        <div>
-          <input id="input-form" type="text" placeholder="Card title">
-          <a id="btn-submit-card" class="btn btn-blue" href="#">Submit</a>
-        </div>
+        <input id="input-form" type="text" placeholder="Task title">
+        <textarea name="textarea" id="input-textarea" cols="30" rows="10" placeholder="Task content"></textarea>
+        <button id="btn-submit-card" class="btn btn-blue">Create</button>
       </section>
       <section page="list"><div class="ctn"></div></section>
       <section page="view"></section>
